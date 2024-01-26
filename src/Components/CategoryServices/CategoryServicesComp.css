@@ -1,0 +1,25 @@
+.category-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .category-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .category-title {
+    margin-top: 0;
+  }
+  
+  .service-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .service-list li {
+    margin-left: 20px;
+  }
+  
