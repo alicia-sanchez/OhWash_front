@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch } from "react-router-dom"; // Importez 
 
 import Home from "../Pages/Home";
 import CategoryServices from "../Pages/CategoryServices";
+import CategoryArticles from "../Pages/CategoryArticles";
 
 function App() {
   return (
@@ -23,6 +24,15 @@ function App() {
           element={
             //<MyLayout>
             <CategoryServices />
+            //</MyLayout>
+          }
+        />
+
+        <Route
+          path="/api/services/:id"
+          element={
+            //<MyLayout>
+            <CategoryArticles />
             //</MyLayout>
           }
         />

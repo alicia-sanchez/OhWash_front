@@ -1,0 +1,52 @@
+{
+  "id": 12,
+  "name": "Nettoyage à sec",
+  "description": "Nettoyage doux sans produits chimiques agressifs, préservant la qualité de vos tissus et de l'environnement.",
+  "price": 6,
+  "category_service": [
+    {
+      "id": 21,
+      "description": "Pour des vêtements et tissus délicats.",
+      "Information": "Laver + Repassage + sur cintre",
+      "name": "pressing",
+      "services": [
+        "/api/services/12",
+        {
+          "id": 13,
+          "name": "Nettoyage de tissus délicats",
+          "description": "Nettoyage doux sans produits chimiques agressifs, préservant la qualité de vos tissus et de l'environnement.",
+          "price": 8,
+          "category_service": ["/api/category_services/21"],
+          "category_article": [
+            "/api/category_articles/63",
+            "/api/category_articles/64",
+            "/api/category_articles/65",
+            "/api/category_articles/66"
+          ]
+        },
+        {
+          "id": 14,
+          "name": "Repassage",
+          "description": "description à venir.",
+          "price": 7,
+          "category_service": ["/api/category_services/21"],
+          "category_article": [
+            "/api/category_articles/62",
+            "/api/category_articles/63",
+            "/api/category_articles/64",
+            "/api/category_articles/65",
+            "/api/category_articles/66",
+            "/api/category_articles/67"
+          ]
+        }
+      ]
+    }
+  ],
+  "category_article": [
+    "/api/category_articles/61",
+    "/api/category_articles/62",
+    "/api/category_articles/63",
+    "/api/category_articles/64",
+    "/api/category_articles/65"
+  ]
+}
