@@ -2,9 +2,12 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { BrowserRouter as Router, Switch } from "react-router-dom"; // Importez les composants de React Router
 
+import { MyLayout } from "../Components/MyLayout/MyLayout";
 import Home from "../Pages/Home";
 import CategoryServices from "../Pages/CategoryServices";
 import CategoryArticles from "../Pages/CategoryArticles";
+import articlesComp from "../Components/ArticlesComp/ArticlesComp";
+import About from "../Pages/About/About";
 
 function App() {
   return (
@@ -13,27 +16,45 @@ function App() {
         <Route
           path="/"
           element={
-            //<MyLayout>
-            <Home />
-            //</MyLayout>
+            <MyLayout>
+              <Home />
+            </MyLayout>
           }
         />
 
         <Route
           path="/category-services"
           element={
-            //<MyLayout>
-            <CategoryServices />
-            //</MyLayout>
+            <MyLayout>
+              <CategoryServices />
+            </MyLayout>
           }
         />
 
         <Route
           path="/api/services/:id"
           element={
-            //<MyLayout>
-            <CategoryArticles />
-            //</MyLayout>
+            <MyLayout>
+              <CategoryArticles />
+            </MyLayout>
+          }
+        />
+
+        <Route
+          path="/api/services/:id"
+          element={
+            <MyLayout>
+              <articlesComp />
+            </MyLayout>
+          }
+        />
+
+        <Route
+          path="about"
+          element={
+            <MyLayout>
+              <About />
+            </MyLayout>
           }
         />
       </Routes>

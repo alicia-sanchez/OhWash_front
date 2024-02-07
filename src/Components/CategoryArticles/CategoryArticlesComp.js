@@ -4,57 +4,79 @@ import { useParams } from "react-router-dom";
 
 function CategoryArticlesComp() {
   const { id } = useParams();
-  const [categoryNames, setCategoryNames] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AxiosPublic.get(`/services/${id}`)
+    setLoading(true);
+    AxiosPublic.get(`/category_articles`)
       .then((response) => {
-        const categoryArticleURIs = response.data.category_article;
-        console.log("URIs:", categoryArticleURIs);
-  
-        return Promise.all(categoryArticleURIs.map(uri => {
-          console.log("Fetching:", uri);
-          const adjustedUri = uri.substring(4);
-          console.log("Uri:", adjustedUri);
-          return AxiosPublic.get(adjustedUri)
-            .then(res => {
-              console.log("Response for", uri, ":", res);
-              return res;
-            })
-            .catch(error => {
-              console.error("Error fetching", uri, ":", error);
-              return {}; // Retourne un objet vide en cas d'erreur
-            });
-        }));
-      })
-      .then(responses => {
-        const names = responses.map(res => res.data ? res.data.name : "Unknown");
-        console.log("Names:", names);
-        setCategoryNames(names);
+        const filteredCategories = response.data.filter((category) => {
+          return category.services.includes(`/api/services/${id}`);
+        });
+        setCategories(filteredCategories);
         setLoading(false);
+
+        // Récupération des noms des articles pour chaque catégorie
+        filteredCategories.forEach((category) => {
+          const promises = category.articles.map((articleUri) => {
+            const articleDetailsUrl = articleUri.replace("/api/", "/");
+            return AxiosPublic.get(articleDetailsUrl)
+              .then((response) => {
+                const articleName = response.data.name;
+                return articleName;
+              })
+              .catch((error) => {
+                console.error(
+                  "Erreur lors de la récupération des détails de l'article:",
+                  error
+                );
+                return null;
+              });
+          });
+
+          // Attendre que toutes les requêtes soient terminées
+          Promise.all(promises).then((articleNames) => {
+            category.articleNames = articleNames.filter(
+              (name) => name !== null
+            );
+            setCategories([...filteredCategories]);
+          });
+        });
       })
       .catch((error) => {
-        console.error("Error fetching category article URIs:", error);
+        console.error(
+          "Erreur lors de la récupération des catégories d'articles :",
+          error
+        );
         setLoading(false);
       });
   }, [id]);
 
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
+
   return (
     <div>
-      <h1>Category Articles for Service ID: {id}</h1>
       {loading ? (
-        <p>Loading...</p>
+        <p>Chargement...</p>
       ) : (
-        <ul>
-          {categoryNames.map((name, index) => (
-            <li key={index}>{name}</li>
-          ))}
-        </ul>
+        categories.map((category) => (
+          <div key={category.id} onClick={() => handleCategoryClick(category)}>
+            <h2>{category.name}</h2>
+            <ul>
+              {category.articleNames &&
+                category.articleNames.map((articleName, index) => (
+                  <li key={index}>{articleName}</li>
+                ))}
+            </ul>
+          </div>
+        ))
       )}
     </div>
   );
 }
 
 export default CategoryArticlesComp;
-

@@ -1,0 +1,36 @@
+@import url("https://use.typekit.net/lxa4hiu.css");
+/* =========== VARIABLES CSS ========= */
+:root {
+  /* == HEADER == */
+  --header: 3rem;
+
+  /* == COLORS == */
+  --first-color: #a6c48a;
+  --second-color: #ffeedd;
+  --blue-color: #a6ddf4;
+  --pink-color: #e7c8dd;
+  --orange-color: #fa8963;
+  --yellow-color: #ffdb62;
+  --text-color: #1f1f1f;
+  --body-color: #ffff;
+
+  --base-white-color: #ffff;
+  --base-black-color: #0000;
+
+  /* == WEIGHT - SIZE == */
+  --font-medium: 500;
+  --font-semi-bold: 600;
+
+  /* == FONT - SIZE == */
+  --h1-font-size: 3rem;
+  --h2-font-size: 2.25rem;
+  --h3-font-size: 2rem;
+  --h4-font-size: 1.5rem;
+  --h5-font-size: 1.25rem;
+  --h6-font-size: 1.12rem;
+  --small-font-size: 0.87rem;
+  --smaller-font-size: 0.62rem;
+
+  /* == FONT - FAMILY == */
+  --body-font: "roc-grotesk", sans-serif;
+}

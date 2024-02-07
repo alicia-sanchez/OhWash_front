@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import AxiosPublic from "../../utils/AxiosPublic.js";
 import "./CategoryServicesComp.css";
 
-const HomeComp = () => {
+const CategoryServicesComp = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [expandedCategory, setExpandedCategory] = useState(null);
 
   useEffect(() => {
     AxiosPublic.get("/category_services")
@@ -14,37 +16,66 @@ const HomeComp = () => {
         console.log(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching categories:", error);
+        console.error("Erreur lors de la récupération des catégories :", error);
         setLoading(false);
       });
   }, []);
 
+  const getCardClasses = (index) => {
+    if (index === 0 || index === 2) {
+      return ["card", "card--primary"];
+    } else {
+      return ["card", "card--secondary", "card--reverse"];
+    }
+  };
+
+  const toggleServices = (categoryId) => {
+    setExpandedCategory(categoryId === expandedCategory ? null : categoryId);
+  };
+
   return (
-    <div>
-      <h1>Home Page</h1>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul className="category-list">
-          {categories.map((category) => (
-            <li key={category.id}>
-              <div className="category-card">
-                <h3 className="category-title">{category.name}</h3>
-                <ul className="service-list">
-                  {category.services.map((service) => (
-                    <li key={service.id}>
-                      {/* Lien vers l'URL spécifique du service */}
-                      <a href={`api/services/${service.id}`}>{service.name}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <ul className="grid">
+      {categories.map((category, index) => (
+        <li key={category.id} className={getCardClasses(index).join(" ")}>
+          <div className="card__top">
+            <span
+              className="card__tag"
+              onClick={() => toggleServices(category.id)}
+            >
+              Voir les services
+            </span>
+          </div>
+          <div className="card__bottom">
+            <h2 className="card__title">{category.name}</h2>
+            <p className="card__text">{category.description}</p>
+            {expandedCategory === category.id && (
+              <section
+                className={`services-section ${
+                  expandedCategory ? "services-section--expanded" : ""
+                }`}
+              >
+                <div className="container">
+                  <div className="cards">
+                    {category.services.map((service) => (
+                      <div className="card_service" key={service.id}>
+                        <div className="card_service">
+                          <div className="card_title_service">
+                            <Link to={`/api/services/${service.id}`}>
+                              {service.name}
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 };
 
-export default HomeComp;
+export default CategoryServicesComp;
