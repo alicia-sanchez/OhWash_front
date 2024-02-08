@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { BrowserRouter as Router, Switch } from "react-router-dom"; // Importez les composants de React Router
+import { BrowserRouter as Router } from "react-router-dom"; // Importez les composants de React Router
 
 import { MyLayout } from "../Components/MyLayout/MyLayout";
 import Home from "../Pages/Home";
 import CategoryServices from "../Pages/CategoryServices";
 import CategoryArticles from "../Pages/CategoryArticles";
-import articlesComp from "../Components/ArticlesComp/ArticlesComp";
+
 import About from "../Pages/About/About";
 
 function App() {
@@ -36,15 +36,6 @@ function App() {
           element={
             <MyLayout>
               <CategoryArticles />
-            </MyLayout>
-          }
-        />
-
-        <Route
-          path="/api/services/:id"
-          element={
-            <MyLayout>
-              <articlesComp />
             </MyLayout>
           }
         />

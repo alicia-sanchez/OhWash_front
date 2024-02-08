@@ -8,7 +8,7 @@ const CategoryArticles = () => {
   return (
     <div>
       <CategoryArticlesComponent onCategorySelected={setSelectedCategory} />
-
+      {selectedCategory && <ArticlesComp category={selectedCategory} />}
     </div>
   );
 };
