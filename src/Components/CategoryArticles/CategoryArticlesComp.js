@@ -14,22 +14,21 @@ function CategoryArticlesComp() {
     setLoading(true);
     AxiosPublic.get(`/category_articles`)
       .then((response) => {
-        const filteredCategories = response.data.filter((category) => {
-          return category.services.includes(`/api/services/${id}`);
-        });
+        const filteredCategories = response.data.filter((category) =>
+          category.services.includes(`/api/services/${id}`)
+        );
         setCategories(filteredCategories);
         setLoading(false);
 
-        // Récupération des noms des articles pour chaque catégorie
         filteredCategories.forEach((category) => {
           const promises = category.articles.map((articleUri) => {
             const articleDetailsUrl = articleUri.replace("/api/", "/");
             return AxiosPublic.get(articleDetailsUrl)
-              .then((response) => {
-                const articleName = response.data.name;
-                const articlePrice = response.data.price;
-                return { name: articleName, quantity: 0, price: articlePrice }; // Ajout de la quantité
-              })
+              .then((response) => ({
+                name: response.data.name,
+                quantity: 0,
+                price: response.data.price,
+              }))
               .catch((error) => {
                 console.error(
                   "Erreur lors de la récupération des détails de l'article:",
@@ -39,9 +38,8 @@ function CategoryArticlesComp() {
               });
           });
 
-          // Attendre que toutes les requêtes soient terminées
           Promise.all(promises).then((articles) => {
-            category.articles = articles.filter((article) => article !== null); // Mise à jour de la liste d'articles
+            category.articles = articles.filter((article) => article !== null);
             setCategories([...filteredCategories]);
           });
         });
@@ -55,22 +53,26 @@ function CategoryArticlesComp() {
       });
   }, [id]);
 
-  const handleQuantityChange = (catIndex, articleIndex, change) => {
+  const handleQuantityChange = (categoryId, articleIndex, change) => {
+    const categoryIndex = categories.findIndex(
+      (category) => category.id === categoryId
+    );
     const updatedCategories = [...categories];
-    const article = updatedCategories[catIndex].articles[articleIndex];
-    article.quantity = Math.max(article.quantity + change, 0); // Empêcher les quantités négatives
+    const article = updatedCategories[categoryIndex].articles[articleIndex];
+    article.quantity = Math.max(article.quantity + change, 0);
     setCategories(updatedCategories);
   };
 
   const calculateOrderTotal = () => {
-    return categories.reduce((total, category) => {
-      return (
+    return categories.reduce(
+      (total, category) =>
         total +
-        category.articles.reduce((subTotal, article) => {
-          return subTotal + article.price * article.quantity;
-        }, 0)
-      );
-    }, 0);
+        category.articles.reduce(
+          (subTotal, article) => subTotal + article.price * article.quantity,
+          0
+        ),
+      0
+    );
   };
 
   const handleCategoryClick = (category) => {
@@ -78,69 +80,101 @@ function CategoryArticlesComp() {
   };
 
   return (
-    <div className="container">
-      <div className="category-list">
-        {loading ? (
-          <p>Chargement...</p>
-        ) : (
-          categories.map((category, catIndex) => (
-            <div key={category.id} className="category">
-              <h2 className="category-title">{category.name}</h2>
-              <ul className="article-list">
-                {category.articles.map((article, articleIndex) => {
-                  const totalPrice = article.price * article.quantity;
-                  return (
-                    <li key={articleIndex} className="article">
-                      <div className="article-details">
-                        <span className="article-name">{article.name}</span>
-                        <div className="article-info">
-                          <div>Quantité: {article.quantity}</div>
-                          <div>Prix unitaire: {article.price}€</div>
-                          <div>Prix total: {totalPrice.toFixed(2)}€</div>
-                        </div>
-                        <div className="article-actions">
-                          <button
-                            className="quantity-button"
-                            onClick={() =>
-                              handleQuantityChange(catIndex, articleIndex, 1)
-                            }
-                          >
-                            +
-                          </button>
-                          <button
-                            className="quantity-button"
-                            onClick={() =>
-                              handleQuantityChange(catIndex, articleIndex, -1)
-                            }
-                          >
-                            -
-                          </button>
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+    <div className="fullPageContent">
+      <div className="container">
+        <div className="category-list">
+          {loading ? (
+            <p>Chargement...</p>
+          ) : (
+            <>
+              <div className="header_box">
+                <h4>Choisissez vos catégories d'articles</h4>
+                <h3>CATÉGORIES</h3>
+              </div>
+              {categories.map((category) => (
+                <div
+                  key={category.id}
+                  className={`category ${
+                    selectedCategory && selectedCategory.id === category.id
+                      ? "category-selected"
+                      : ""
+                  }`}
+                  onClick={() => handleCategoryClick(category)}
+                >
+                  <h2 className="category-title">
+                    <span>{category.name}</span>
+                    <span className="nb_article">{category.articles.length} articles</span>
+                  </h2>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+        {selectedCategory && (
+          <div className="article-container">
+            {/* Assurez-vous que cette div a un display flex ou block selon vos besoins */}
+            <div className="articles-grid">
+              <div className="header_box">
+                <h4>{selectedCategory.name}</h4>
+                <h3>ARTICLES</h3>
+              </div>
+              <div className="articles-wrapper">
+                {selectedCategory.articles.map((article, articleIndex) => (
+                  <div key={articleIndex} className="article-card">
+                    <span className="article-name">{article.name}</span>
+                    <span className="article-price">{article.price} €</span>
+                    <div className="quantity-control">
+                      <button
+                        className="quantity-button"
+                        onClick={() =>
+                          handleQuantityChange(
+                            selectedCategory.id,
+                            articleIndex,
+                            -1
+                          )
+                        }
+                      >
+                        -
+                      </button>
+                      <div className="quantity-display">{article.quantity}</div>
+                      <button
+                        className="quantity-button"
+                        onClick={() =>
+                          handleQuantityChange(
+                            selectedCategory.id,
+                            articleIndex,
+                            1
+                          )
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))
+          </div>
         )}
-      </div>
-      <div className="order-summary">
-        <h2>Récapitulatif de la commande</h2>
-        <ul>
-          {categories.map((category) =>
-            category.articles.map(
-              (article, index) =>
-                article.quantity > 0 && (
+
+        <div className="order-summary">
+          <h3>DÉTAILS</h3>
+          <ul>
+            {categories.flatMap((category) =>
+              category.articles.map((article, index) =>
+                article.quantity > 0 ? (
                   <li key={index}>
                     {article.name} - Quantité: {article.quantity} - Prix total:{" "}
                     {(article.price * article.quantity).toFixed(2)}€
                   </li>
-                )
-            )
-          )}
-        </ul>
-        <div>Total de la commande: {calculateOrderTotal().toFixed(2)}€</div>
+                ) : null
+              )
+            )}
+          </ul>
+          <div className="header_price">
+            {calculateOrderTotal().toFixed(2)}€
+          </div>
+        </div>
       </div>
     </div>
   );

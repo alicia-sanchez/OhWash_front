@@ -1,0 +1,135 @@
+.fullPageContent {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background_signin {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 3rem;
+    
+  }
+
+.background_signin svg {
+    position: absolute;
+    width: auto;
+}
+
+.svg-top-left {
+    top: 0;
+    left: 0;
+    height: 30%;
+  }
+  
+  .svg-top-right {
+    top: 0;
+    right: 0;
+    height: 30%;
+  }
+  
+  .svg-bottom-left {
+    bottom: 0;
+    left: 0;
+    height: 30%;
+  }
+  
+  .svg-bottom-right {
+    bottom: 0;
+    right: 0;
+    height: 30%;
+  }
+  
+  .svg-middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Placez-le au-dessus des autres SVG */
+  }
+
+
+.contact__container {
+  display: flex;
+  justify-content: space-around; /* ou center selon le design */
+  align-items: center;
+  gap: 20px;
+}
+
+.contact__box,
+.contact__form {
+  padding: 20px;
+  border: 1px solid #ccc; /* Style de bordure exemple */
+  border-radius: 10px;
+}
+
+.contact__box{
+    width: 520px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+
+    z-index: 2; /* Placez-le au premier plan */
+}
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.section__title h2 {
+  margin-bottom: 20px;
+}
+
+.contact__content {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.contact__input {
+    width: 100%;
+    height: 45px;
+    border: none;
+    padding: 10px;
+    background-color: #eeeeee;
+    color: gray;
+    outline: none;
+    font-size: 15px;
+    margin-bottom: 20px;
+    transition: .5s;
+    border-radius: 5px;
+}
+
+.contact__label {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background-color: #fff;
+  padding: 0 5px;
+  font-size: 14px;
+}
+
+.button {
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+}
+
+.button--flex {
+  gap: 5px;
+}
+
+.button__icon {
+  font-size: 16px;
+}

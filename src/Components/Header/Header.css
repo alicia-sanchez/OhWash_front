@@ -27,6 +27,10 @@ button {
   margin-left: 4rem;
 }
 
+.header_logo{
+  z-index: 3;
+}
+
 .navbar-nav a {
   color: var(--text-color);
   margin: 0 10px;

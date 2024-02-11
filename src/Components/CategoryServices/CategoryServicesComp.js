@@ -1,26 +1,33 @@
+// Importation des hooks et des composants
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+// Importation d'une fonction Axios pour les appels API
 import AxiosPublic from "../../utils/AxiosPublic.js";
+// Importation du fichier CSS pour le style du composant
 import "./CategoryServicesComp.css";
 
 const CategoryServicesComp = () => {
+  // Déclaration des états avec le hook useState
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [expandedCategory, setExpandedCategory] = useState(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
+  // Utilisation de useEffect pour charger les données
   useEffect(() => {
+    // Appel à l'API pour récupérer les catégories de services
     AxiosPublic.get("/category_services")
       .then((response) => {
-        setCategories(response.data);
-        setLoading(false);
+        setCategories(response.data); // Stockage des données de catégorie dans l'état
+        setLoading(false); // Mise à jour de l'état de chargement
         console.log(response.data);
       })
       .catch((error) => {
         console.error("Erreur lors de la récupération des catégories :", error);
-        setLoading(false);
+        setLoading(false); // Mise à jour de l'état de chargement même en cas d'erreur
       });
   }, []);
 
+  // Fonction pour déterminer les classes CSS d'une carte en fonction de son index
   const getCardClasses = (index) => {
     if (index === 0 || index === 2) {
       return ["card", "card--primary"];
@@ -29,10 +36,14 @@ const CategoryServicesComp = () => {
     }
   };
 
+  // Fonction pour basculer l'affichage des services d'une catégorie
   const toggleServices = (categoryId) => {
-    setExpandedCategory(categoryId === expandedCategory ? null : categoryId);
+    setSelectedCategoryId(
+      categoryId === selectedCategoryId ? null : categoryId
+    );
   };
 
+  // Rendu du composant
   return (
     <ul className="grid">
       {categories.map((category, index) => (
@@ -48,10 +59,10 @@ const CategoryServicesComp = () => {
           <div className="card__bottom">
             <h2 className="card__title">{category.name}</h2>
             <p className="card__text">{category.description}</p>
-            {expandedCategory === category.id && (
+            {selectedCategoryId === category.id && (
               <section
                 className={`services-section ${
-                  expandedCategory ? "services-section--expanded" : ""
+                  selectedCategoryId ? "services-section--expanded" : ""
                 }`}
               >
                 <div className="container">

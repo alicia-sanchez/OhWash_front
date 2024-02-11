@@ -8,6 +8,7 @@ import CategoryServices from "../Pages/CategoryServices";
 import CategoryArticles from "../Pages/CategoryArticles";
 
 import About from "../Pages/About/About";
+import SignUp from "../Pages/SignUp";
 
 function App() {
   return (
@@ -41,10 +42,18 @@ function App() {
         />
 
         <Route
-          path="about"
+          path="/about"
           element={
             <MyLayout>
               <About />
+            </MyLayout>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <MyLayout>
+              <SignUp />
             </MyLayout>
           }
         />

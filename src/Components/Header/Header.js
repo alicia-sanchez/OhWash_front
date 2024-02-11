@@ -30,14 +30,12 @@ function Header() {
           <NavLink to="/">Accueil</NavLink>
           {role === "Admin" || role === "User" ? (
             <NavLink to="/employees">Employés</NavLink>
-          ) : (
-            ""
-          )}
+          ) : null}
           <NavLink to="/about">Comment ça fonctionne ?</NavLink>
           <NavLink to="/category-services">Nos services</NavLink>
-          <NavLink to="/contact">Contact</NavLink>
+          <NavLink to="/signup">Contact</NavLink>
         </Nav>
-        {location.pathname !== "/category-services" && (
+        {(location.pathname !== "/category-services" && location.pathname !== "/signup") && (
           <div className="nav_cta">
             <a href="#" className="nav_link_cta">
               Rafraichissez vos vêtements dès maintenant !
@@ -59,24 +57,12 @@ function Header() {
                 />
               </g>
             </svg>
-
-            <GoArrowRight
-              style={{
-                backgroundColor: "#a6c48a",
-                padding: ".3rem",
-                borderRadius: "50%",
-                color: "black",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontSize: "2.3rem", // Ajustez la taille de l'icône en fonction de la taille du cercle
-              }}
-            />
           </div>
         )}
       </Container>
     </Navbar>
   );
+  
 }
 
 export default Header;

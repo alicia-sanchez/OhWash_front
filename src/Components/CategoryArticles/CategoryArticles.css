@@ -1,98 +1,174 @@
-/* Style pour la liste des catégories */
-.category-list {
+.container {
   display: flex;
+  justify-content: space-between;
+
+  width: 100%;
   gap: 2rem;
-  width: 80%;
 }
 
-/* Style pour chaque catégorie */
+.category-list {
+  flex: 0 0 30%; /* Adjust width as needed */
+  margin-right: 10px;
+  background-color: var(--second-color);
+  padding: 0rem 2rem 2rem 2rem;
+  border-radius: 25px;
+}
+
+.order-summary {
+  flex: 0 0 20%; /* Adjust width as needed */
+}
+
 .category {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  width: 100%; /* Ajustez cette valeur selon vos besoins */
+  border-radius: 10px;
+
+  cursor: pointer;
 }
 
-/* Style pour le titre de la catégorie */
+.category h2 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-align: center;
+}
+
 .category-title {
-  font-size: 20px;
-  font-weight: bold;
+  background-color: #c2d6a3; /* Replace with the actual color code from your image */
+  padding: 5px 25px;
+  border-radius: 25px;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
-/* Style pour la liste d'articles */
+.nb_article{
+  font-size: .9rem;
+}
+
+.category-selected {
+  border-color: #000; /* Or any color you prefer */
+}
+
 .article-list {
   list-style-type: none;
   padding: 0;
 }
 
-/* Style pour chaque article */
 .article {
-  border-bottom: 1px solid #ccc;
-  padding: 10px 0;
+  background-color: #d9e4c3; /* Article background color */
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
 
+.article-details {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-/* Style pour le nom de l'article */
-.article-details {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+.article-name {
+  display: block;
+  margin-bottom: 10px; /* Espacement entre le nom et les boutons */
+  text-align: center;
 }
 
 .article-info {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Aligner les textes à gauche */
 }
 
-.article-actions {
+.article-container {
+  background-color: #c2d6a3; /* Couleur de fond verte pour la div générale */
+  padding: 10px;
+  border-radius: 10px;
+  padding: 0rem 2rem 2rem 2rem;
+}
+
+.articles-grid {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-.article-name {
-  flex: 1;
+.article-card {
+  flex: 1 1 200px;
+  text-align: center;
+  background-color: #fff; /* Fond blanc pour les cartes */
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère pour les cartes */
+  width: calc(33.333% - 10px); /* Trois cartes par ligne avec l'espacement */
 }
 
-/* Style pour les boutons d'ajout et de soustraction */
+.articles-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Ajustez l'espacement entre les articles */
+  margin-top: 20px; /* Espace entre le header_box et les articles */
+}
+
+.article-price {
+  text-align: center;
+}
+
 .quantity-button {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #a9bf8f; /* Couleur pour les boutons */
   border: none;
+  padding: 5px;
   border-radius: 5px;
-  padding: 5px 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .quantity-button:hover {
-  background-color: #0056b3;
+  background-color: #98ad80; /* A slightly darker shade for hover effect */
 }
-.container {
+
+.quantity-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quantity-display {
+  background-color: #f0f0f0; /* Fond pour la quantité */
+  padding: 5px 10px;
+  margin: 0 5px;
+  border-radius: 5px;
+  min-width: 30px; /* Pour s'assurer que la div ne se rétrécisse pas */
+  text-align: center;
+}
+
+.header_box {
   display: flex;
   justify-content: space-between;
+  text-align: center;
+}
+
+.header_box h4 {
+  font-weight: 500;
+}
+
+.header_box h3 {
+  font-weight: 500;
+  border: 1px solid black;
+  border-radius: 25px;
+  padding: 0.3rem 0.7rem;
+  font-size: 1rem;
 }
 
 .order-summary {
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 5px;
-  width: 300px; /* Ajustez selon votre mise en page */
+  background-color: var(--first-color);
+  padding: 0rem 2rem 2rem 2rem;
+  border-radius: 25px;
 }
 
-.order-summary h2 {
-  margin-top: 0;
+.order-summary h3 {
+  float: right;
+  font-weight: 500;
+  border: 1px solid black;
+  border-radius: 25px;
+  padding: 0.3rem 0.7rem;
+  font-size: 1rem;
 }
 
-.order-summary ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.order-summary li {
-  margin-bottom: 10px;
+.header_price {
+  font-size: 2rem;
 }
