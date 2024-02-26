@@ -1,14 +1,14 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import { BrowserRouter as Router } from "react-router-dom"; // Importez les composants de React Router
-
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { MyLayout } from "../Components/MyLayout/MyLayout";
 import Home from "../Pages/Home";
 import CategoryServices from "../Pages/CategoryServices";
-import CategoryArticles from "../Pages/CategoryArticles";
-
+import CategoryArticles from "../Pages/CategoryArticles/CategoryArticles";
 import About from "../Pages/About/About";
 import SignUp from "../Pages/SignUp";
+import SignIn from "../Pages/SignIn";
+import ArticlesComp from "../Components/ArticlesComp/ArticlesComp";
+import CategoryArticlesComp from "../Components/CategoryArticlesComp/CategoryArticlesComp";
 
 function App() {
   return (
@@ -22,7 +22,6 @@ function App() {
             </MyLayout>
           }
         />
-
         <Route
           path="/category-services"
           element={
@@ -31,16 +30,15 @@ function App() {
             </MyLayout>
           }
         />
-
         <Route
-          path="/api/services/:id"
+          path="/services/:id"
           element={
             <MyLayout>
-              <CategoryArticles />
+              <CategoryArticlesComp />
+              <ArticlesComp />
             </MyLayout>
           }
         />
-
         <Route
           path="/about"
           element={
@@ -54,6 +52,14 @@ function App() {
           element={
             <MyLayout>
               <SignUp />
+            </MyLayout>
+          }
+        />
+        <Route
+          path="/signin"
+          element={
+            <MyLayout>
+              <SignIn />
             </MyLayout>
           }
         />

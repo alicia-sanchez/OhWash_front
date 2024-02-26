@@ -1,0 +1,12 @@
+.btn_back {
+  padding: 2rem 7rem;
+  display: flex;
+}
+
+.btn_back a {
+  font-size: var(--h5-font-size);
+  color: black;
+  background-color: var(--first-color);
+  border-radius: 25px;
+  padding: 0.7rem 1rem;
+}

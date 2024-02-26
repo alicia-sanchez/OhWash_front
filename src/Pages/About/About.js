@@ -2,7 +2,6 @@ import React from "react";
 import "./about.css";
 import { IoMdCheckbox } from "react-icons/io";
 
-import vitrineLogo from "../../Assets/images/logo-vitrine.png";
 function About() {
   return (
     <div className="how-it-works-page">

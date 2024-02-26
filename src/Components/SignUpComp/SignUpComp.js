@@ -1,150 +1,98 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from 'axios';
 import AxiosPublic from "../../utils/AxiosPublic";
-
-import "./SignUp.css"; // Assurez-vous que le chemin est correct
+import SignIn from "../../Pages/SignIn";
+import "react-toastify/dist/ReactToastify.css";
+import "./SignUp.css";
 
 function SignUpComp() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
-    lastname: "",
     firstname: "",
+    lastname: "",
     email: "",
-    adress: "",
     password: "",
-    phone: "",
+    gender: "",
+    city: "",
+    zipCode: 0,
+    country: "",
+    adress: "",
   });
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
 
-  // Gestion des changements de chaque champ du formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData((prevState) => ({
-      ...prevState,
-      [name]: value, // Utilisez la clé dynamique pour la mise à jour
-    }));
-  };
-
-  // Soumission du formulaire
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem('token'); // Récupérer le token du stockage local
-  
-    if (!token) {
-      toast.error("Vous n'êtes pas autorisé à effectuer cette action.");
-      return;
+    let finalValue = value;
+    if (name === "zipCode") {
+      finalValue = value ? parseInt(value, 10) : 0; // Convertit en nombre si `zipCode`, sinon garde la valeur telle quelle
     }
-
-    // Utilisez userData au lieu de formData
-   axios.post('http://127.0.0.1:8000/api/login_check', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then((response) => {
-        // Gestion de la réponse réussie
-        toast.success("Inscription réussie!");
-        // Redirection ou mise à jour de l'état ici
-      })
-      .catch((error) => {
-        // Gestion des erreurs
-        toast.error("Erreur lors de l'inscription");
-        console.error("Erreur d'inscription:", error.response);
-      });
+    setUserData({ ...userData, [name]: finalValue });
   };
 
-  useEffect(() => {
-    axios.get("/login_check")
-      .then((response) => {
-        setSignUp(response.data.data);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log("An error occurred:", error.response);
-      });
-  }, []);
+  const validateForm = (values) => {
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    // Ajoutez ou modifiez les validations selon les champs requis
+    // Exemple de validation pour firstname, lastname et email
+    if (!values.firstname) {
+      errors.firstname = "Le prénom est requis";
+    }
+    if (!values.lastname) {
+      errors.lastname = "Le nom est requis";
+    }
+    if (!values.email) {
+      errors.email = "L'email est requis";
+    } else if (!regex.test(values.email)) {
+      errors.email = "Le format de l'email n'est pas valide";
+    }
+    // Continuez avec d'autres validations selon votre besoin
+    return errors;
+  };
+
+  const handleSubmit = (e) => {
+    console.log(handleSubmit);
+    e.preventDefault();
+    const errors = validateForm(userData);
+    setFormErrors(errors);
+    setIsSubmit(true);
+
+    if (Object.keys(errors).length === 0 && isSubmit) {
+      AxiosPublic.post(
+        "/users",
+        { ...userData, zipCode: parseInt(userData.zipCode, 10) },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => {
+          toast.success("Inscription réussie!");
+          navigate("/signin");
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error(
+            "Une erreur s'est produite lors de l'inscription: " +
+              (error.response?.data.detail || "Erreur inconnue")
+          );
+        });
+    }
+  };
 
   return (
     <section className="fullPageContent" id="signup">
-      <div class="background_signin">
-        <svg
-          class="svg-top-left"
-          xmlns="http://www.w3.org/2000/svg"
-          width="177"
-          height="189"
-          z-index="0"
-          viewBox="0 0 177 189"
-          fill="none"
-        >
-          <path
-            d="M86.0863 132.364C72.253 180.495 49.1014 190.111 39.2548 188.903C3.51881 188.903 -1.57261 136.23 0.348676 109.893C2.02981 86.2142 14.9025 33.7823 52.944 13.4862C100.496 -11.8841 158.135 3.33806 168.942 20.0099C179.749 36.6818 184.793 65.6764 150.209 72.2001C115.626 78.7239 103.378 72.2001 86.0863 132.364Z"
-            fill="#A6DDF4"
-          />
-        </svg>
-        <svg
-          class="svg-top-right"
-          xmlns="http://www.w3.org/2000/svg"
-          width="119"
-          height="194"
-          viewBox="0 0 119 194"
-          fill="none"
-        >
-          <path
-            d="M13.719 98.6799C37.6555 121.78 40.8034 154.852 39.3853 168.501C42.7787 200.11 70.0931 200.725 90.4886 179.239C110.884 157.753 125.062 86.855 114.513 35.4205C103.964 -16.014 72.6238 1.55483 40.496 15.7747C8.36832 29.9946 -16.2015 69.8052 13.719 98.6799Z"
-            fill="#A6C48A"
-          />
-        </svg>
-        <svg
-          class="svg-middle"
-          xmlns="http://www.w3.org/2000/svg"
-          width="500"
-          height="410"
-          viewBox="0 0 110 110"
-          fill="none"
-        >
-          <circle
-            cx="54.9431"
-            cy="55.0828"
-            r="46.6919"
-            stroke="#A6C48A"
-            stroke-width="15"
-          />
-        </svg>
-        <svg
-          class="svg-bottom-left"
-          xmlns="http://www.w3.org/2000/svg"
-          width="228"
-          height="153"
-          viewBox="0 0 228 153"
-          fill="none"
-        >
-          <path
-            d="M108.843 49.4388C92.9295 44.8761 69.375 20.2881 59.5869 8.56439C43.484 -8.72046 -21.8748 -2.84242 7.4893 54.1916C36.8534 111.226 175.149 197.727 214.933 173.963C246.76 154.952 213.038 128.653 192.199 117.88C180.832 128.336 165.298 142.594 194.094 115.979C230.088 82.7087 128.735 55.1422 108.843 49.4388Z"
-            fill="#FA8963"
-          />
-        </svg>
-        <svg
-          class="svg-bottom-right"
-          xmlns="http://www.w3.org/2000/svg"
-          width="177"
-          height="141"
-          viewBox="0 0 177 141"
-          fill="none"
-        >
-          <path
-            d="M108.412 109.964C120.774 77.5585 148.2 59.5886 160.367 54.6543C186.459 37.1282 178.45 11.8999 153.62 3.07786C128.79 -5.74413 63.4568 13.6658 22.5713 46.776C-18.3143 79.8861 6.57203 100.492 28.8277 123.346C51.0834 146.2 92.9595 150.471 108.412 109.964Z"
-            fill="#FFDB62"
-          />
-        </svg>
-      </div>
       <div className="contact__container column">
         <div className="contact__box">
           <div className="section__title">
             <h2>
-              Bienvenue !<br /> Inscrivez-vous ici
+              Bienvenue !<br />
+              Inscrivez-vous ici
             </h2>
             <form onSubmit={handleSubmit} className="contact__form">
-              {/* Exemple pour le champ email, répétez pour les autres */}
+              {/* Nom */}
               <div className="contact__content">
                 <input
                   type="text"
@@ -156,6 +104,8 @@ function SignUpComp() {
                 />
                 <label className="contact__label">Nom</label>
               </div>
+
+              {/* Prénom */}
               <div className="contact__content">
                 <input
                   type="text"
@@ -167,28 +117,8 @@ function SignUpComp() {
                 />
                 <label className="contact__label">Prénom</label>
               </div>
-              <div className="contact__content">
-                <input
-                  type="number"
-                  name="phone"
-                  placeholder=" "
-                  value={userData.phone}
-                  onChange={handleChange}
-                  className="contact__input"
-                />
-                <label className="contact__label">Téléphone</label>
-              </div>
-              <div className="contact__content">
-                <input
-                  type="text"
-                  name="city"
-                  placeholder=" "
-                  value={userData.adress}
-                  onChange={handleChange}
-                  className="contact__input"
-                />
-                <label className="contact__label">Adresse</label>
-              </div>
+
+              {/* Email */}
               <div className="contact__content">
                 <input
                   type="email"
@@ -200,18 +130,89 @@ function SignUpComp() {
                 />
                 <label className="contact__label">Email</label>
               </div>
+
+              {/* Mot de passe */}
               <div className="contact__content">
                 <input
                   type="password"
                   name="password"
                   placeholder=" "
-                  value={userData.password}
-                  onChange={handleChange}
-                  className="contact__input"
+                  class="contact__input"
+                  autocomplete="current-password"
                 />
+
                 <label className="contact__label">Mot de passe</label>
               </div>
 
+              {/* Genre */}
+              <div className="contact__content">
+                <select
+                  name="gender"
+                  value={userData.gender}
+                  onChange={handleChange}
+                  className="contact__input"
+                >
+                  <option value="">Sélectionnez le genre</option>
+                  <option value="male">Homme</option>
+                  <option value="female">Femme</option>
+                  <option value="other">Autre</option>
+                </select>
+                <label className="contact__label">Genre</label>
+              </div>
+
+              {/* Ville */}
+              <div className="contact__content">
+                <input
+                  type="text"
+                  name="city"
+                  placeholder=" "
+                  value={userData.city}
+                  onChange={handleChange}
+                  className="contact__input"
+                />
+                <label className="contact__label">Ville</label>
+              </div>
+
+              {/* Code Postal */}
+              <div className="contact__content">
+                <input
+                  type="number"
+                  name="zipCode"
+                  placeholder=" "
+                  value={userData.zipCode}
+                  onChange={handleChange}
+                  className="contact__input"
+                />
+                <label className="contact__label">Code Postal</label>
+              </div>
+
+              {/* Pays */}
+              <div className="contact__content">
+                <input
+                  type="text"
+                  name="country"
+                  placeholder=" "
+                  value={userData.country}
+                  onChange={handleChange}
+                  className="contact__input"
+                />
+                <label className="contact__label">Pays</label>
+              </div>
+
+              {/* Adresse */}
+              <div className="contact__content">
+                <input
+                  type="text"
+                  name="adress"
+                  placeholder=" "
+                  value={userData.adress}
+                  onChange={handleChange}
+                  className="contact__input"
+                />
+                <label className="contact__label">Adresse</label>
+              </div>
+
+              {/* Bouton de soumission */}
               <button className="button button--flex">
                 S'inscrire
                 <i className="ri-arrow-right-up-line button__icon"></i>

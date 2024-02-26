@@ -3,6 +3,8 @@ import React from "react";
 import { MdArrowOutward } from "react-icons/md";
 import imagebubble from "../../Assets/images/Bubble2.png";
 import imgTestimonial from "../../Assets/images/testimonial-perfil-1.png";
+import { Link } from "react-router-dom";
+
 import "./HomeComp.css";
 
 const HomeComp = () => {
@@ -16,21 +18,15 @@ const HomeComp = () => {
             notre pressing prend soin de votre linge et de la planète !
           </h2>
           <div className="btn_auth">
-            <button className="btn_login" routerLink="/singin">
-              Se connecter
-              <MdArrowOutward
-                style={{
-                  marginLeft: ".7rem",
-                }}
-              />
+            <button className="btn_login">
+              <Link to="/signin">Se connecter</Link>
+              <MdArrowOutward style={{ marginLeft: ".7rem" }} />
             </button>
-            <button className="btn_login" routerLink="/signup">
-              S'inscrire
-              <MdArrowOutward
-                style={{
-                  marginLeft: ".7rem",
-                }}
-              />
+            <button className="btn_login">
+              <Link to="/signup" className="btn_link">
+                S'inscrire
+              </Link>
+              <MdArrowOutward style={{ marginLeft: ".7rem" }} />
             </button>
           </div>
         </div>
@@ -417,15 +413,15 @@ const HomeComp = () => {
       <div class="right column">
         <div class="news_container">
           <div class="title_and_arrows">
-          <h5 class="title_container">C'est nouveau !</h5>
-          <MdArrowOutward
-            style={{
-              backgroundColor: "white",
-              padding: ".7rem",
-              borderRadius: "50%",
-              fontSize: "3rem",
-            }}
-          />
+            <h5 class="title_container">C'est nouveau !</h5>
+            <MdArrowOutward
+              style={{
+                backgroundColor: "white",
+                padding: ".7rem",
+                borderRadius: "50%",
+                fontSize: "3rem",
+              }}
+            />
           </div>
           <div class="news_title">
             <h3 class="title_news_container">Pressing à domicile</h3>
@@ -479,13 +475,13 @@ const HomeComp = () => {
           <div class="title_and_arrows">
             <h5 class="title_container">Nos avis</h5>
             <MdArrowOutward
-                  style={{
-                    backgroundColor: "white",
-                    padding: ".7rem",
-                    borderRadius: "50%",
-                    fontSize: "3rem"
-                  }}
-                />
+              style={{
+                backgroundColor: "white",
+                padding: ".7rem",
+                borderRadius: "50%",
+                fontSize: "3rem",
+              }}
+            />
           </div>
           <div class="testimonial_customers">
             <img src={imgTestimonial} alt="photo de profil utilisateur" />

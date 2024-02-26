@@ -1,6 +1,7 @@
 // Importation des hooks et des composants
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 // Importation d'une fonction Axios pour les appels API
 import AxiosPublic from "../../utils/AxiosPublic.js";
 // Importation du fichier CSS pour le style du composant
@@ -11,19 +12,19 @@ const CategoryServicesComp = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const { id } = useParams();
 
-  // Utilisation de useEffect pour charger les données
   useEffect(() => {
-    // Appel à l'API pour récupérer les catégories de services
+    setLoading(true);
     AxiosPublic.get("/category_services")
       .then((response) => {
-        setCategories(response.data); // Stockage des données de catégorie dans l'état
-        setLoading(false); // Mise à jour de l'état de chargement
-        console.log(response.data);
+        console.log("Données reçues:", response.data);
+        setCategories(response.data);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error("Erreur lors de la récupération des catégories :", error);
-        setLoading(false); // Mise à jour de l'état de chargement même en cas d'erreur
+        console.error("Erreur lors de la récupération des catégories:", error);
+        setLoading(false);
       });
   }, []);
 
@@ -71,7 +72,7 @@ const CategoryServicesComp = () => {
                       <div className="card_service" key={service.id}>
                         <div className="card_service">
                           <div className="card_title_service">
-                            <Link to={`/api/services/${service.id}`}>
+                            <Link to={`/services/${service.id}`}>
                               {service.name}
                             </Link>
                           </div>
