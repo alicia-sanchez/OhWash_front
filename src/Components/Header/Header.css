@@ -14,7 +14,7 @@ button {
 
 .fullHeader {
   font-family: var(--body-font);
-  padding: 2rem 7rem;
+  padding: 1rem 7rem;
   display: flex;
   align-items: center; /* Ajoutez cette ligne pour centrer verticalement */
   justify-content: space-between; /* Assurez-vous que le logo et le menu sont répartis aux extrémités du conteneur */

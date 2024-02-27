@@ -4,7 +4,7 @@ body {
   padding: 0;
 }
 
-.fullPageContent {
+.fullPageHome {
   background-color: var(--base-white-color);
   padding: 2rem 7rem;
   display: flex;
@@ -84,31 +84,49 @@ body {
 }
 
 .block_service {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
   background-color: var(--second-color);
-  width: 180px;
-  height: 180px;
   border-radius: 25px;
   box-sizing: border-box;
-  position: relative;
+  width: calc(50% - 15px); /* Ajusté pour deux blocs par ligne */
+  height: 180px;
+  padding: 20px; /* Ajoutez du padding si nécessaire pour le contenu interne */
+}
+
+.block_service.ameublement,
+.block_service.blanchisserie {
+  width: calc(50% - 15px); /* Les rend plus larges */
+}
+
+.block_service.pressing,
+.block_service.retouches {
+  width: calc(40% - 15px); /* Les rend moins larges */
 }
 
 .title_service_block {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 3;
-  text-align: center;
-  width: 100%;
+  position: relative;
+  z-index: 900;
   font-size: var(--h3-font-size);
   font-weight: var(--font-medium);
   text-transform: uppercase;
+  width: auto;
 }
 
 .block_service svg {
   padding: 0.3rem;
-  width: 90px;
   z-index: 500;
+}
+
+.background_block {
+  z-index: 1; /* Assurez-vous que cela ne met pas les SVG au-dessus du titre par accident */
+}
+
+.title_service {
+  z-index: 2; /* Plus élevé pour s'assurer que le titre est au-dessus des SVG */
 }
 
 /* Coin supérieur gauche */
@@ -118,7 +136,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  height: 120px;
+  height: 190px;
 }
 
 /* Autres coins */
@@ -134,13 +152,13 @@ body {
 .block_service .svg-top-left {
   top: 0;
   left: 0;
+  height: 6rem;
 }
 
 .block_service .svg-top-right {
   top: 0;
   right: 0;
   height: 85px;
-  margin-left: 40px;
 }
 
 .block_service .svg-bottom-left {
@@ -157,16 +175,17 @@ body {
 }
 
 .service_container_left {
-  width: 50%;
+  width: 55%;
   background-color: var(--blue-color);
   border-radius: 25px;
   padding: 20px;
-  max-height: 500px;
+  max-height: 550px;
 }
 
 .title_container_service {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 2rem;
 }
 
 .container_left_right_top {
@@ -199,6 +218,7 @@ body {
 }
 
 .info_item_list {
+  margin: 0;
   font-size: var(--h6-font-size);
 }
 
@@ -300,7 +320,6 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  height: 315px;
   width: 100%;
 }
 

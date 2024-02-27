@@ -9,6 +9,8 @@ import SignUp from "../Pages/SignUp";
 import SignIn from "../Pages/SignIn";
 import ArticlesComp from "../Components/ArticlesComp/ArticlesComp";
 import CategoryArticlesComp from "../Components/CategoryArticlesComp/CategoryArticlesComp";
+import Contact from "../Pages/Contact";
+import CheckoutComp from "../Components/CheckoutComp/CheckoutComp";
 
 function App() {
   return (
@@ -31,11 +33,27 @@ function App() {
           }
         />
         <Route
+          path="/contact"
+          element={
+            <MyLayout>
+              <Contact />
+            </MyLayout>
+          }
+        />
+        <Route
           path="/services/:id"
           element={
             <MyLayout>
               <CategoryArticlesComp />
               <ArticlesComp />
+            </MyLayout>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <MyLayout>
+              <CheckoutComp />
             </MyLayout>
           }
         />

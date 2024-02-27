@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import AxiosPublic from "../../utils/AxiosPublic";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import Checkout from "../../Pages/Checkout";
 
 import "./CategoryArticles.css";
 
 function CategoryArticlesComp() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showPlanOrderButton, setShowPlanOrderButton] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -61,6 +64,11 @@ function CategoryArticlesComp() {
     const article = updatedCategories[categoryIndex].articles[articleIndex];
     article.quantity = Math.max(article.quantity + change, 0);
     setCategories(updatedCategories);
+
+    const isAnyArticleWithQuantity = categories.some((category) =>
+      category.articles.some((article) => article.quantity > 0)
+    );
+    setShowPlanOrderButton(isAnyArticleWithQuantity);
   };
 
   const calculateOrderTotal = () => {
@@ -176,6 +184,16 @@ function CategoryArticlesComp() {
           <div className="header_price">
             {calculateOrderTotal().toFixed(2)}€
           </div>
+          {showPlanOrderButton && (
+            <div className="order-plan-button-container">
+              <button
+                className="plan-order-button"
+                onClick={() => navigate("/checkout")} // Remplacez '/checkout' par le chemin réel vers votre page de paiement
+              >
+                Planifier votre commande
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
