@@ -4,12 +4,8 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
-
-import PropTypes from "prop-types";
-
+import { CiMenuBurger } from "react-icons/ci";
 import { GoArrowRight } from "react-icons/go";
-
-import { Modal } from "react-bootstrap";
 
 import "./Header.css";
 import logo from "../../Assets/images/logoohwash.svg";
@@ -29,6 +25,7 @@ function Header({ cart, onUpdateCartQty, onRemoveFromCart, onEmptyCart }) {
             height="105"
           />
         </Navbar.Brand>
+        
         <Nav className="m-auto">
           <NavLink to="/">Accueil</NavLink>
           <NavLink to="/about">Comment ça fonctionne ?</NavLink>

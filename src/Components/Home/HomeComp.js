@@ -4,11 +4,26 @@ import { MdArrowOutward } from "react-icons/md";
 import imagebubble from "../../Assets/images/Bubble2.png";
 import imgTestimonial from "../../Assets/images/testimonial-perfil-1.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./HomeComp.css";
 import { IoStar } from "react-icons/io5";
 
 const HomeComp = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const userName = localStorage.getItem("userName");
+
+  const handleLogout = () => {
+    // Effacez les informations de l'utilisateur du localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
+    // Redirigez ou rafraîchissez la page pour refléter le changement d'état
+    navigate("/"); // ou window.location.reload();
+  };
+
   return (
     <div className="fullPageHome row">
       <div className="left column">
@@ -19,16 +34,25 @@ const HomeComp = () => {
             notre pressing prend soin de votre linge et de la planète !
           </h2>
           <div className="btn_auth">
-            <button className="btn_login">
-              <Link to="/signin">Se connecter</Link>
-              <MdArrowOutward style={{ marginLeft: ".7rem" }} />
-            </button>
-            <button className="btn_login">
-              <Link to="/signup" className="btn_link">
-                S'inscrire
-              </Link>
-              <MdArrowOutward style={{ marginLeft: ".7rem" }} />
-            </button>
+            {token ? (
+              <>
+                <span>Bonjour, {userName}</span>
+                <button onClick={handleLogout}>Déconnexion</button>
+              </>
+            ) : (
+              <>
+                <button className="btn_login">
+                  <Link to="/signin">Se connecter</Link>
+                  <MdArrowOutward style={{ marginLeft: ".7rem" }} />
+                </button>
+                <button className="btn_login">
+                  <Link to="/signup" className="btn_link">
+                    S'inscrire
+                  </Link>
+                  <MdArrowOutward style={{ marginLeft: ".7rem" }} />
+                </button>
+              </>
+            )}
           </div>
         </div>
         <svg
@@ -497,14 +521,15 @@ const HomeComp = () => {
             <h5 class="name_testimonial">Lola Ruiz</h5>
             <h6 class="date_testimonial">23 Oct. 2023</h6>
             <div class="testimonial_stars">
-            <IoStar 
-            style={{
-              marginTop: "10px",
-             }}/>
-            <IoStar />
-            <IoStar />
-            <IoStar />
-            <IoStar />
+              <IoStar
+                style={{
+                  marginTop: "10px",
+                }}
+              />
+              <IoStar />
+              <IoStar />
+              <IoStar />
+              <IoStar />
             </div>
             <div class="description_testimonial">
               <p class="description">

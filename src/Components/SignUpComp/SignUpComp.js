@@ -52,7 +52,7 @@ function SignUpComp() {
   };
 
   const handleSubmit = (e) => {
-    console.log(handleSubmit);
+    console.log("handleSubmit called");
     e.preventDefault();
     const errors = validateForm(userData);
     setFormErrors(errors);
@@ -61,7 +61,12 @@ function SignUpComp() {
     if (Object.keys(errors).length === 0 && isSubmit) {
       AxiosPublic.post(
         "/users",
-        { ...userData, zipCode: parseInt(userData.zipCode, 10) },
+        {
+          ...userData,
+          plainPassword: userData.password, // Assurez-vous que c'est le champ attendu par votre backend
+          zipCode: parseInt(userData.zipCode, 10),
+        },
+
         {
           headers: {
             "Content-Type": "application/json",
@@ -69,14 +74,17 @@ function SignUpComp() {
         }
       )
         .then((res) => {
+          console.log("mdp" + userData.password);
+          console.log("Réponse succès:", res);
           toast.success("Inscription réussie!");
           navigate("/signin");
         })
         .catch((error) => {
-          console.error(error);
+          console.log("Erreur lors de l'inscription:", error);
+          let errorMessage =
+            error.response?.data?.detail || error.message || "Erreur inconnue";
           toast.error(
-            "Une erreur s'est produite lors de l'inscription: " +
-              (error.response?.data.detail || "Erreur inconnue")
+            "Une erreur s'est produite lors de l'inscription: " + errorMessage
           );
         });
     }
@@ -137,6 +145,8 @@ function SignUpComp() {
                   type="password"
                   name="password"
                   placeholder=" "
+                  value={userData.password}
+                  onChange={handleChange}
                   class="contact__input"
                   autocomplete="current-password"
                 />

@@ -78,7 +78,7 @@
 
 .card_title_service {
   background-color: white;
-  color: var(--base-black-color);
+  color: black;
   font-size: 1.2rem;
   font-weight: var(--font-medium);
   padding: 0.5rem 1rem;

@@ -56,6 +56,7 @@ button {
   white-space: nowrap; /* Empêche le texte de passer à la ligne */
   flex-shrink: 0; /* Empêche le CTA de réduire sa taille */
   padding: 0.7rem 1rem;
+
 }
 
 .svg-cta {
@@ -73,4 +74,40 @@ button {
   border-radius: 25px;
   padding: 1rem 1rem;
   font-size: var(--h6-font-size);
+}
+
+/* Styles pour cacher le menu en mode collapse */
+.navbar-nav.collapse {
+  display: none;
+}
+
+/* Styles pour afficher le menu en mode expand */
+.navbar-nav.expand {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrer les éléments si vous le souhaitez */
+  background-color: #a6c48a; /* Couleur de fond de votre choix */
+  width: 100%; /* Prendre toute la largeur disponible */
+  position: absolute; /* Positionnement absolu pour le superposer */
+  top: 100%; /* Débuter juste en dessous du reste du contenu de la navbar */
+  left: 0;
+  z-index: 100; /* S'assurer qu'il est au-dessus des autres éléments */
+  transition: transform 300ms ease-in-out; /* Animation douce */
+}
+
+@media screen and (max-width: 991px) {
+  .fullHeader {
+    padding: 1rem;
+  }
+
+  .m-auto,
+  .nav_cta {
+    display: none;
+  }
+
+  @media screen and (max-width: 991px) {
+    .navbar-nav.expand {
+      width: 100%; /* Exemple pour prendre toute la largeur */
+    }
+  }
 }

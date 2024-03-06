@@ -21,7 +21,7 @@ function SignInComp() {
     event.preventDefault();
     if (email && vpassword) {
       try {
-        const data = { email: email, vpassword: vpassword };
+        const data = { email: email, password: vpassword };
         console.log(data);
         const response = await AxiosPublic.post("/login_check", data, {
           headers: {
@@ -30,8 +30,18 @@ function SignInComp() {
         });
         localStorage.setItem("token", response.data.token);
         const decodedToken = parseJwt(response.data.token);
-        localStorage.setItem("role", decodedToken.role);
-        localStorage.setItem("userId", decodedToken.sub); // 'sub' souvent utilisé pour l'ID utilisateur
+        console.log(decodedToken); // Pour déboguer et voir le contenu du token
+
+        // Assurez-vous que les clés correspondent à celles du token
+        // Stockage du rôle
+        localStorage.setItem("role", decodedToken.roles[0]);
+        localStorage.setItem(
+          "userId",
+          decodedToken.user_id || decodedToken.sub
+        ); // Utilisez la clé correcte
+
+        localStorage.setItem("userName", decodedToken.username); // Adaptez selon la structure de votre token
+
         navigate("/");
       } catch (error) {
         const errorMessage =
